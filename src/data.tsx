@@ -8,36 +8,38 @@ import { students, computeResults, computePoints } from "./students";
 
 export function StudentTable() {
   const pointsFilterProps = {
-    filterDropdown: (props: FilterDropdownProps) => {
-      return (
-        <div>
-          <Input
-            placeholder="Search points"
-            value={props.selectedKeys ? props.selectedKeys[0] : ""}
-            onChange={e =>
-              props.setSelectedKeys
-                ? props.setSelectedKeys(e.target.value ? [e.target.value] : [])
-                : null
-            }
-            onPressEnter={() => runSearch(props.confirm)}
-            className="idSearchText"
-          />
-          <Button
-            variant="primary"
-            onClick={() => runSearch(props.confirm)}
-            size="sm"
-          >
-            Search <Icon type="search" style={{ marginLeft: "3px" }} />
-          </Button>
-          <Button
-            variant="primary"
-            onClick={() => resetBatchIdSearch(props.clearFilters)}
-            size="sm"
-          >
-            Reset
-          </Button>
-        </div>
-      );
+    filterDropdown: (props: FilterDropdownProps) => (
+      <div>
+        <Input
+          placeholder="Search points"
+          value={props.selectedKeys ? props.selectedKeys[0] : ""}
+          onChange={e =>
+            props.setSelectedKeys
+              ? props.setSelectedKeys(e.target.value ? [e.target.value] : [])
+              : null
+          }
+          onPressEnter={() => runSearch(props.confirm)}
+          className="idSearchText"
+        />
+        <Button
+          variant="primary"
+          onClick={() => runSearch(props.confirm)}
+          size="sm"
+        >
+          Search <Icon type="search" style={{ marginLeft: "3px" }} />
+        </Button>
+        <Button
+          variant="primary"
+          onClick={() => resetBatchIdSearch(props.clearFilters)}
+          size="sm"
+        >
+          Reset
+        </Button>
+      </div>
+    ),
+    onFilter: (value, records) => {
+      const points = computePoints(computeResults(records.results));
+      return points.toString() === value.toString();
     }
   };
 
